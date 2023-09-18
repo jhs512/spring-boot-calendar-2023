@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/article")
@@ -63,6 +64,11 @@ public class ArticleController {
         // articleService의 find 메소드를 사용하여 해당 범위에 포함되는 게시물을 검색
         List<Article> articles = articleService.findByEventDateBetween(startDate, endDate);
 
+        // 기존에 model.addAttribute("articles", articles); 코드를 다음과 같이 변경합니다.
+        Map<Integer, List<Article>> forCalendarArticles = articles.stream()
+                .collect(Collectors.groupingBy(article -> article.getEventDate().getDayOfMonth()));
+        model.addAttribute("forCalendarArticles", forCalendarArticles);
+
         model.addAttribute("articles", articles);
 
         DayOfWeek firstDayOfMonth = startDate.getDayOfWeek();
@@ -85,19 +91,5 @@ public class ArticleController {
         model.addAttribute("nextMonth", Ut.str.padWithZeros(nextMonth.getMonthValue(), 2));
 
         return "usr/article/calendar";
-    }
-
-    @GetMapping("/calendar2/{year}/{month}")
-    public String calendar(@PathVariable int year, @PathVariable int month, Model model) {
-        LocalDate date = LocalDate.of(year, month, 1);
-        DayOfWeek firstDayOfMonth = date.getDayOfWeek();
-        int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
-
-        model.addAttribute("year", year);
-        model.addAttribute("month", month);
-        model.addAttribute("firstDayOfMonth", firstDayOfMonth.getValue() + 1);
-        model.addAttribute("daysInMonth", daysInMonth);
-
-        return "usr/article/calendar2";
     }
 }

@@ -17,12 +17,13 @@
     <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
 
     <!-- Days of the month -->
-    <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day" th:text="${n}"></div>
+    <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
+        <span th:text="|${n}일|"></span>
+        <ul>
+            <li th:each="article : ${forCalendarArticles.get(n)}" th:text="|${article.id}, ${article.title}|"></li>
+        </ul>
+    </div>
 </div>
-
-<hr>
-[[${articles}]]
-<hr>
 
 <a th:href="@{'/article/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
     <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
