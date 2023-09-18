@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -89,5 +91,19 @@ public class ArticleController {
         model.addAttribute("nextMonth", Ut.str.padWithZeros(nextMonth.getMonthValue(), 2));
 
         return "usr/article/calendar";
+    }
+
+    @GetMapping("/calendar2/{year}/{month}")
+    public String calendar(@PathVariable int year, @PathVariable int month, Model model) {
+        LocalDate date = LocalDate.of(year, month, 1);
+        DayOfWeek firstDayOfMonth = date.getDayOfWeek();
+        int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
+
+        model.addAttribute("year", year);
+        model.addAttribute("month", month);
+        model.addAttribute("firstDayOfMonth", firstDayOfMonth.getValue() + 1);
+        model.addAttribute("daysInMonth", daysInMonth);
+
+        return "usr/article/calendar2";
     }
 }
