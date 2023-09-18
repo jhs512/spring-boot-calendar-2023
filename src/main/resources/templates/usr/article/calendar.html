@@ -1,1 +1,11 @@
+<a th:href="@{'/article/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
+    <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
+</a>
+
+<hr>
 [[${articles}]]
+<hr>
+
+<a th:href="@{'/article/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
+    <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
+</a>

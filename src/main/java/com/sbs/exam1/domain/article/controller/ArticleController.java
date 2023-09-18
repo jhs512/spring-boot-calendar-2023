@@ -63,6 +63,14 @@ public class ArticleController {
 
         model.addAttribute("articles", articles);
 
+        LocalDate prevMonth = startDate.minusMonths(1);
+        LocalDate nextMonth = startDate.plusMonths(1);
+
+        model.addAttribute("prevYear", prevMonth.getYear());
+        model.addAttribute("prevMonth", Ut.str.padWithZeros(prevMonth.getMonthValue(), 2));
+        model.addAttribute("nextYear", nextMonth.getYear());
+        model.addAttribute("nextMonth", Ut.str.padWithZeros(nextMonth.getMonthValue(), 2));
+
         return "usr/article/calendar";
     }
 }
