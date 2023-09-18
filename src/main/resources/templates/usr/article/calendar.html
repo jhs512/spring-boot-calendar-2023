@@ -2,28 +2,23 @@
     <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
 </a>
 
-<table>
-    <thead>
-    <tr>
-        <th>Sun</th>
-        <th>Mon</th>
-        <th>Tue</th>
-        <th>Wed</th>
-        <th>Thu</th>
-        <th>Fri</th>
-        <th>Sat</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="week : ${#numbers.sequence(1, (days.size() + startDayOfWeek - 1 + 6) / 7)}">
-        <td th:each="dayOfWeek : ${#numbers.sequence(1, 7)}"
-            th:if="${(week-1) * 7 + dayOfWeek >= startDayOfWeek && (week-1) * 7 + dayOfWeek < startDayOfWeek + days.size()}"
-            th:text="${days[(week-1) * 7 + dayOfWeek - startDayOfWeek]}"></td>
-        <td th:each="dayOfWeek : ${#numbers.sequence(1, 7)}"
-            th:unless="${(week-1) * 7 + dayOfWeek >= startDayOfWeek && (week-1) * 7 + dayOfWeek < startDayOfWeek + days.size()}"></td>
-    </tr>
-    </tbody>
-</table>
+<h1 th:text="'Calendar for ' + ${year} + ' ' + ${month}"></h1>
+
+<div class="calendar">
+    <div class="day">일</div>
+    <div class="day">월</div>
+    <div class="day">화</div>
+    <div class="day">수</div>
+    <div class="day">목</div>
+    <div class="day">금</div>
+    <div class="day">토</div>
+
+    <!-- Fill empty days before the start -->
+    <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
+
+    <!-- Days of the month -->
+    <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day" th:text="${n}"></div>
+</div>
 
 <hr>
 [[${articles}]]
@@ -32,3 +27,17 @@
 <a th:href="@{'/article/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
     <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
 </a>
+
+<style>
+    .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+    .day {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+</style>

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,18 +65,13 @@ public class ArticleController {
 
         model.addAttribute("articles", articles);
 
-        List<LocalDate> days = new ArrayList<>();
-        LocalDate startDay = LocalDate.of(2023, 6, 1);
-        while (startDay.getMonthValue() == 6) {
-            days.add(startDay);
-            startDay = startDay.plusDays(1);
-        }
+        DayOfWeek firstDayOfMonth = startDate.getDayOfWeek();
+        int daysInMonth = YearMonth.of(startDate.getYear(), startDate.getMonthValue()).lengthOfMonth();
 
-        model.addAttribute("days", days);
-        // 수정된 코드
-        int startDayOfWeek = LocalDate.of(2023, 6, 1).getDayOfWeek().getValue();
-        startDayOfWeek = (startDayOfWeek == 7) ? 1 : startDayOfWeek + 1; // 일요일(7)을 1로, 나머지는 +1
-        model.addAttribute("startDayOfWeek", startDayOfWeek);
+        model.addAttribute("year", startDate.getYear());
+        model.addAttribute("month", startDate.getMonthValue());
+        model.addAttribute("firstDayOfMonth", firstDayOfMonth.getValue() + 1);
+        model.addAttribute("daysInMonth", daysInMonth);
 
         LocalDate prevMonth = startDate.minusMonths(1);
         LocalDate nextMonth = startDate.plusMonths(1);
