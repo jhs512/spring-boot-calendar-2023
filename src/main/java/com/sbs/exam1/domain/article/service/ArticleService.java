@@ -37,4 +37,8 @@ public class ArticleService {
                 .build();
         return articleRepository.save(article);
     }
+
+    public List<Article> findByEventDateBetween(LocalDate startDate, LocalDate endDate) {
+        return articleRepository.findByEventDateBetweenOrderByEventDateAsc(startDate, endDate);
+    }
 }

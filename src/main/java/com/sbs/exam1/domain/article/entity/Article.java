@@ -21,6 +21,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Builder
 @Getter
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class Article {
     @EqualsAndHashCode.Include
     @Id
