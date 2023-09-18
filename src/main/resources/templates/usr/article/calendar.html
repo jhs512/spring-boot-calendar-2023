@@ -2,6 +2,29 @@
     <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
 </a>
 
+<table>
+    <thead>
+    <tr>
+        <th>Sun</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="week : ${#numbers.sequence(1, (days.size() + startDayOfWeek - 1 + 6) / 7)}">
+        <td th:each="dayOfWeek : ${#numbers.sequence(1, 7)}"
+            th:if="${(week-1) * 7 + dayOfWeek >= startDayOfWeek && (week-1) * 7 + dayOfWeek < startDayOfWeek + days.size()}"
+            th:text="${days[(week-1) * 7 + dayOfWeek - startDayOfWeek]}"></td>
+        <td th:each="dayOfWeek : ${#numbers.sequence(1, 7)}"
+            th:unless="${(week-1) * 7 + dayOfWeek >= startDayOfWeek && (week-1) * 7 + dayOfWeek < startDayOfWeek + days.size()}"></td>
+    </tr>
+    </tbody>
+</table>
+
 <hr>
 [[${articles}]]
 <hr>
