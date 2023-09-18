@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -29,9 +30,10 @@ public class ArticleService {
     }
 
     @Transactional
-    public Article write(String title) {
+    public Article write(String title, String eventDate) {
         Article article = Article.builder()
                 .title(title)
+                .eventDate(LocalDate.parse(eventDate))
                 .build();
         return articleRepository.save(article);
     }
